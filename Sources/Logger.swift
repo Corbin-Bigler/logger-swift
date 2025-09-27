@@ -38,10 +38,9 @@ public actor Logger {
         continuations[tag]?.removeValue(forKey: id)
     }
 
-    nonisolated func log(_ log: Log) {
+    nonisolated public func log(_ log: Log) {
         continuation.yield(log)
     }
-    
     nonisolated public func log(tag: String? = nil, _ message: Any, level: LogLevel, secure: Bool = false, file: String = #file, fileID: String = #fileID, line: Int = #line, column: Int = #column, function: String = #function) {
         let tag = tag ?? file.split(separator: "/").last?.split(separator: ".").first.flatMap { String($0) } ?? file
         log(Log(tag: tag, message: "\(message)", level: level, secure: secure, metadata:  ["file": file,"fileID": fileID,"line": line,"column": column,"function": function]))
@@ -59,7 +58,7 @@ public actor Logger {
         log(tag: tag, message, level: .debug, secure: secure, file: file, fileID: fileID, line: line, column: column, function: function)
     }
 
-    private static let shared = Logger()
+    public static let shared = Logger()
     public static func log(tag: String? = nil, _ message: Any, level: LogLevel, secure: Bool = false, file: String = #file, fileID: String = #fileID, line: Int = #line, column: Int = #column, function: String = #function) {
         shared.log(tag: tag, message, level: level, secure: secure, file: file, fileID: fileID, line: line, column: column, function: function)
     }
