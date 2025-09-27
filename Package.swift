@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-logger",
+    name: "logger-swift",
     platforms: [
         .macOS(.v11),
         .iOS(.v13)
@@ -16,5 +16,9 @@ let package = Package(
     ],
     targets: [
         .target(name: "Logger"),
+        .testTarget(
+            name: "LoggerTests",
+            dependencies: ["Logger"]
+        ),
     ]
 )
