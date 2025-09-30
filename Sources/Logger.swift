@@ -84,7 +84,7 @@ public actor Logger {
         log(tag: tag, message, level: .debug, secure: secure, file: file, fileID: fileID, line: line, column: column, function: function)
     }
     
-    public struct Tagged {
+    public struct Tagged: Sendable {
         private let logger: Logger
         public let tag: String
         
