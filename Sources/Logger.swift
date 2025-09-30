@@ -1,12 +1,12 @@
 import Foundation
 
 public actor Logger {
-    private let defaultTag = UUID().uuidString
+    private let defaultTag = "__default__"
     private let continuation: AsyncStream<Log>.Continuation
     
     private var continuations: [String: [UUID: (AsyncStream<Log>.Continuation, LogLevel)]] = [:]
     
-    init() {
+    public init() {
         var continuation: AsyncStream<Log>.Continuation!
         let stream = AsyncStream<Log> { continuation = $0 }
         self.continuation = continuation
@@ -64,7 +64,10 @@ public actor Logger {
         log(tag: tag, message, level: .debug, secure: secure, file: file, fileID: fileID, line: line, column: column, function: function)
     }
 
-    public static let shared = Logger()
+    private static let shared = Logger()
+    
+    public static func stream(tag: String? = nil, level: LogLevel = .debug) async -> AsyncStream<Log> { await shared.stream(tag: tag, level: level) }
+    
     public static func log(tag: String? = nil, _ message: Any, level: LogLevel, secure: Bool = false, file: String = #file, fileID: String = #fileID, line: Int = #line, column: Int = #column, function: String = #function) {
         shared.log(tag: tag, message, level: level, secure: secure, file: file, fileID: fileID, line: line, column: column, function: function)
     }
