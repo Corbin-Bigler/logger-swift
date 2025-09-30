@@ -64,7 +64,7 @@ public actor Logger {
         log(tag: tag, message, level: .debug, secure: secure, file: file, fileID: fileID, line: line, column: column, function: function)
     }
 
-    private static let shared = Logger()
+    public static let shared = Logger()
     
     public static func stream(tag: String? = nil, level: LogLevel = .debug) async -> AsyncStream<Log> { await shared.stream(tag: tag, level: level) }
     
