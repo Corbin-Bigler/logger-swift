@@ -93,6 +93,9 @@ public actor Logger {
             self.tag = tag
         }
         
+        public func stream(level: LogLevel = .debug) async -> AsyncStream<Log> {
+            await logger.stream(tag: tag, level: level)
+        }
         nonisolated public func log(_ message: Any, level: LogLevel, secure: Bool = false, metadata: [String: Sendable] = [:]) {
             logger.log(tag: tag, message, level: level, secure: secure, metadata: metadata)
         }
